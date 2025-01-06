@@ -2,7 +2,7 @@
 
 # Zeroinit
 
-Next generation inititialization system for Linux kernel
+Next generation initialization system for Linux kernel
 
 ![Zeroinit-Example.png](https://www.zupimages.net/up/25/02/5d8q.png)
 
