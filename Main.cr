@@ -1,4 +1,4 @@
 require "./RequiredLibraries"
 
-Zeroinit = Zeroinit::InitializationSystem.new
+Zeroinit = ZEROINIT::InitializationSystem.new
 Zeroinit.start
