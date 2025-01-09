@@ -57,10 +57,10 @@ module ZEROINIT
             textSpeed = 10_000_000
 
             space = "     "
-            versionTitle = ZEROINIT::Default::InitializationSystem::VersionTitle.colorize(:green)}
-            kernelTitle = ZEROINIT::Default::InitializationSystem::KernelTitle.colorize(:green)}
-            architectureTitle = ZEROINIT::Default::InitializationSystem::ArchitectureTitle.colorize(:green)}
-            operatingSystemTitle = ZEROINIT::Default::InitializationSystem::OperatingSystemTitle.colorize(:green)}
+            versionTitle = ZEROINIT::Default::InitializationSystem::VersionTitle.colorize(:green)
+            kernelTitle = ZEROINIT::Default::InitializationSystem::KernelTitle.colorize(:green)
+            architectureTitle = ZEROINIT::Default::InitializationSystem::ArchitectureTitle.colorize(:green)
+            operatingSystemTitle = ZEROINIT::Default::InitializationSystem::OperatingSystemTitle.colorize(:green)
 
             progressivePrint(   text: "#{space}#{versionTitle}: #{version}",
                                 speed: textSpeed)
