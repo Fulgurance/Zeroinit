@@ -37,19 +37,19 @@ module ZEROINIT
         end
 
         def version : String
-
+            return "0.0.0"
         end
 
         def kernel : String
-
+            return "Linux"
         end
 
         def architecture : String
-
+            return "x86_64"
         end
 
         def operatingSystem : String
-
+            return "Resilience"
         end
 
         def printSystemInformation
