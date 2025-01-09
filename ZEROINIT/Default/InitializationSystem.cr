@@ -10,7 +10,7 @@ module ZEROINIT
             KernelTitle = "KERNEL"
             ArchitectureTitle = "ARCHITECTURE"
             OperatingSystemTitle = "OPERATING SYSTEM"
-            StartingUnitsText = "Starting units"
+            StartingUnitsTitle = "Starting units"
             ProcessNotificationCharacters = "■"
             UnitSuccessText = "(ok)"
             UnitLoadingText = "(loading)"

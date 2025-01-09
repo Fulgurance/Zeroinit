@@ -13,26 +13,34 @@ module ZEROINIT
             #printStartingUnits
         end
 
-        def progressivePrint(text : String, speed = 20_000_000)
+        def progressivePrint(text : String, speed = 20)
             text.each_char do |character|
-                sleep(Time::Span.new(nanoseconds: speed))
+                startingTime = Time.monotonic
+
+                loop do
+                    if (Time.monotonic - startingTime).milliseconds > speed
+                        break
+                    end
+                end
+
                 print character
             end
+
         end
 
         def printInitializationTitle
+            puts
 
-            textSpeed = 30_000_000
+            textSpeed = 30
 
             prefix = "[ ".colorize(:green)
             initName = ZEROINIT::Default::InitializationSystem::Name.colorize(Colorize::ColorRGB.new(255,100,100)).mode(:bold)
             loadingText = ZEROINIT::Default::InitializationSystem::InitializationText
             suffix = " ]".colorize(:green)
 
-            progressivePrint(   text: "#{prefix}#{loadingText}#{initName}#{suffix}",
+            progressivePrint(   text: "#{prefix}#{loadingText} #{initName}#{suffix}\n",
                                 speed: textSpeed)
 
-            puts
             puts
         end
 
@@ -54,7 +62,7 @@ module ZEROINIT
 
         def printSystemInformation
 
-            textSpeed = 10_000_000
+            textSpeed = 10
 
             space = "     "
             versionTitle = ZEROINIT::Default::InitializationSystem::VersionTitle.colorize(:green)
@@ -80,12 +88,11 @@ module ZEROINIT
         def printStartingUnitsTitle
 
             prefix = "\t{ "
-            text = ZEROINIT::Default::InitializationSystem::StartingUnitsText.colorize(:green)
+            text = ZEROINIT::Default::InitializationSystem::StartingUnitsTitle.colorize(:green)
             suffix = " }".colorize(:green)
 
-            progressivePrint(   text: "#{prefix}#{text}#{suffix}")
+            progressivePrint(   text: "#{prefix}#{text}#{suffix}\n")
 
-            puts
             puts
         end
 
