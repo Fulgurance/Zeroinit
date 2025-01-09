@@ -62,16 +62,16 @@ module ZEROINIT
             architectureTitle = ZEROINIT::Default::InitializationSystem::ArchitectureTitle.colorize(:green)
             operatingSystemTitle = ZEROINIT::Default::InitializationSystem::OperatingSystemTitle.colorize(:green)
 
-            progressivePrint(   text: "#{space}#{versionTitle}: #{version}",
+            progressivePrint(   text: "#{space}#{versionTitle}: #{version}\n",
                                 speed: textSpeed)
 
-            progressivePrint(   text: "#{space}#{kernelTitle}: #{kernel}",
+            progressivePrint(   text: "#{space}#{kernelTitle}: #{kernel}\n",
                                 speed: textSpeed)
 
-            progressivePrint(   text: "#{space}#{architectureTitle}: #{architecture}",
+            progressivePrint(   text: "#{space}#{architectureTitle}: #{architecture}\n",
                                 speed: textSpeed)
 
-            progressivePrint(   text: "#{space}#{operatingSystemTitle}: #{operatingSystem}",
+            progressivePrint(   text: "#{space}#{operatingSystemTitle}: #{operatingSystem}\n",
                                 speed: textSpeed)
 
             puts
@@ -103,7 +103,7 @@ module ZEROINIT
                 statusText = ZEROINIT::Default::InitializationSystem::UnitFailureText.colorize(:red)
             end
 
-            puts "#{prefix} #{name}#{space}#{statusText}"
+            puts "#{prefix} #{name}#{space}#{statusText}\n"
         end
 
         def printStartingUnits(unitList)
