@@ -89,7 +89,7 @@ module ZEROINIT
             puts
         end
 
-        def printUnit(name : String, spaceNumber = 1, status : Symbol)
+        def printUnit(name : String, spaceNumber = 1, status = :success)
 
             prefix = "\t\t#{ZEROINIT::Default::InitializationSystem::ProcessNotificationCharacters}".colorize(:green)
             statusText = String.new
