@@ -89,7 +89,7 @@ module ZEROINIT
 
             prefix = "\t{ "
             text = ZEROINIT::Default::InitializationSystem::StartingUnitsTitle.colorize(:green)
-            suffix = " }".colorize(:green)
+            suffix = " }"
 
             progressivePrint(   text: "#{prefix}#{text}#{suffix}\n")
 
