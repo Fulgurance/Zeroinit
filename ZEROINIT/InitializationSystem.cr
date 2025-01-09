@@ -10,7 +10,7 @@ module ZEROINIT
             printInitializationTitle
             printSystemInformation
             printStartingUnitsTitle
-            printStartingUnits
+            #printStartingUnits
         end
 
         def progressivePrint(text : String, speed = 20_000_000)
