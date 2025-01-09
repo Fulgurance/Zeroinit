@@ -1,4 +1,4 @@
 require "colorize"
 require "./ZEROINIT/InitializationSystem"
-require "./ZEROINIT/Default/CommandLine"
+require "./ZEROINIT/Default/InitializationSystem"
 
