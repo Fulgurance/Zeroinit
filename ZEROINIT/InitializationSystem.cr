@@ -11,17 +11,13 @@ module ZEROINIT
             printSystemInformation
             printStartingUnitsTitle
             #printStartingUnits
+
+            loadUnitDatabase
         end
 
         def progressivePrint(text : String, speed = 20)
             text.each_char do |character|
-                startingTime = Time.monotonic
-
-                loop do
-                    if (Time.monotonic - startingTime).milliseconds > speed
-                        break
-                    end
-                end
+                #sleep(Time::Span.new(nanoseconds: speed*1000000))
 
                 print character
             end
@@ -113,8 +109,36 @@ module ZEROINIT
             puts "#{prefix} #{name}#{space}#{statusText}\n"
         end
 
-        def printStartingUnits(unitList)
+        #TESTS PURPOSE
+        def startUnit(unit, quietMode = false)
+            quietMode = (quiet ? Process::Redirect::Close : Process::Redirect::Inherit)
 
+            # process = Process.run(  "./#{unit.filePath}",
+            #                         output: quietMode,
+            #                         error: quietMode,
+            #                         shell: true)
+
+            #printUnit(unit)
+
+            randomStatus = [:loading, :success, :failure].sample
+
+            printUnit(  name: unit,
+                        status: randomStatus)
+
+            rescue
+                printUnit(unit, :failure)
+        end
+
+        def printStartingUnits(unitList = loadUnitDatabase)
+            unitList.each do |unit|
+                startUnit(unit)
+            end
+        end
+
+        #TESTS PURPOSE
+        def loadUnitDatabase : Array(String)
+            #Must be implement
+            return ["Keymaps","Network","Filesystems","Bluetooth","NetworkManager"]#Array(String).new
         end
 
     end
