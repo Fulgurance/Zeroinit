@@ -31,11 +31,11 @@ module ZEROINIT
 	# 		eend $?
 	# 	fi
 	# done
-            # command1 = "mknod -m 600 /dev/console c 5 1 && mknod -m 620 /dev/tty1 c 4 1 && mknod -m 666 /dev/tty c 5 0 && mknod -m 666 /dev/null c 1 3 && mknod -m 660 /dev/kmsg c 1 11"
-            # process = Process.run(  "#{command1}",
-            #                             output: Process::Redirect::Inherit,
-            #                             error: Process::Redirect::Inherit,
-            #                             shell: true)
+            command1 = "mknod -m 620 /dev/tty1 c 4 1 && mknod -m 666 /dev/tty c 5 0 && mknod -m 666 /dev/null c 1 3 && mknod -m 660 /dev/kmsg c 1 11"
+            process = Process.run(  "#{command1}",
+                                        output: Process::Redirect::Inherit,
+                                        error: Process::Redirect::Inherit,
+                                        shell: true)
             #
             # command2 = "ln -snf /proc/self/fd /dev/fd && ln -snf /proc/self/fd/0 /dev/stdin && ln -snf /proc/self/fd/1 /dev/stdout && ln -snf /proc/self/fd/2 /dev/stderr && ln -snf /proc/kcore /dev/core"
             # process = Process.run(  "#{command2}",
@@ -43,20 +43,14 @@ module ZEROINIT
             #                             error: Process::Redirect::Inherit,
             #                             shell: true)
 
-            command1 = "mount -t proc proc /proc"
-            process = Process.run(  "#{command1}",
-                                        output: Process::Redirect::Inherit,
-                                        error: Process::Redirect::Inherit,
-                                        shell: true)
-
             rescue error
                 puts error
                 puts "Continue anyway"
 
-            printInitializationTitle
-            printSystemInformation
-            printStartingUnitsTitle
-            printStartingUnits
+            # printInitializationTitle
+            # printSystemInformation
+            # printStartingUnitsTitle
+            # printStartingUnits
         end
 
         def progressivePrint(text : String, speed = 20)
