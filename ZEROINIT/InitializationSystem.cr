@@ -6,98 +6,20 @@ module ZEROINIT
 
         end
 
-        def mountRunFileSystem
-            process = Process.run(  "mount /run",
-                                    output: Process::Redirect::Inherit,
-                                    error: Process::Redirect::Inherit,
-                                    shell: true)
-
-            if !Dir.exists?("/run/lock")
-                Dir.mkdir("/run/lock")
-            end
-
-            process = Process.run(  "chmod 1777 /run/lock",
-                                    output: Process::Redirect::Inherit,
-                                    error: Process::Redirect::Inherit,
-                                    shell: true)
-        end
-
-        def mountProcFileSystem
-            process = Process.run(  "mount -o nosuid,noexec,nodev /proc",
-                                    output: Process::Redirect::Inherit,
-                                    error: Process::Redirect::Inherit,
-                                    shell: true)
-        end
-
-        def mountSysFileSystem
-            process = Process.run(  "mount -o nosuid,noexec,nodev /sys",
-                                    output: Process::Redirect::Inherit,
-                                    error: Process::Redirect::Inherit,
-                                    shell: true)
-
-            if !Dir.exists?("/sys/fs/cgroup")
-                Dir.mkdir("/sys/fs/cgroup")
-            end
-
-            process = Process.run(  "mount -o nosuid,noexec,nodev /sys/fs/cgroup",
-                                    output: Process::Redirect::Inherit,
-                                    error: Process::Redirect::Inherit,
-                                    shell: true)
-        end
-
-        def mountDevFileSystem
-            process = Process.run(  "mount -o mode=0755,nosuid /dev",
-                                    output: Process::Redirect::Inherit,
-                                    error: Process::Redirect::Inherit,
-                                    shell: true)
-
-            if !Dir.exists?("/dev/shm")
-                Dir.mkdir("/dev/shm")
-            end
-
-            process = Process.run(  "mount -o nosuid,nodev /dev/shm",
-                                    output: Process::Redirect::Inherit,
-                                    error: Process::Redirect::Inherit,
-                                    shell: true)
-        end
-
-        def mountFileSystems
-            mountRunFileSystem
-            mountProcFileSystem
-            mountSysFileSystem
-            mountDevFileSystem
-        end
-
-        def createSymlinks
-            process = Process.run(  "ln -sf /proc/self/fd/0 /dev/stdin",
-                                    output: Process::Redirect::Inherit,
-                                    error: Process::Redirect::Inherit,
-                                    shell: true)
-
-            process = Process.run(  "ln -sf /proc/self/fd/1 /dev/stdout",
-                                    output: Process::Redirect::Inherit,
-                                    error: Process::Redirect::Inherit,
-                                    shell: true)
-
-            process = Process.run(  "ln -sf /proc/self/fd/2 /dev/stderr",
-                                    output: Process::Redirect::Inherit,
-                                    error: Process::Redirect::Inherit,
-                                    shell: true)
-
-            process = Process.run(  "ln -sfn /proc/self/fd /dev/fd",
-                                    output: Process::Redirect::Inherit,
-                                    error: Process::Redirect::Inherit,
-                                    shell: true)
-
-             process = Process.run(  "ln -sf /proc/kcore /dev/core",
-                                    output: Process::Redirect::Inherit,
-                                    error: Process::Redirect::Inherit,
-                                    shell: true)
-        end
-
         def start
-            mountFileSystems
-            createSymlinks
+
+            command1 = "mknod -m 600 /dev/console c 5 1 && mknod -m 620 /dev/tty1 c 4 1 && mknod -m 666 /dev/tty c 5 0 && mknod -m 666 /dev/null c 1 3 && mknod -m 660 /dev/kmsg c 1 11"
+            process = Process.run(  "#{command1}",
+                                        output: Process::Redirect::Inherit,
+                                        error: Process::Redirect::Inherit,
+                                        shell: true)
+
+            command2 = "ln -snf /proc/self/fd /dev/fd && ln -snf /proc/self/fd/0 /dev/stdin && ln -snf /proc/self/fd/1 /dev/stdout && ln -snf /proc/self/fd/2 /dev/stderr && ln -snf /proc/kcore /dev/core"
+            process = Process.run(  "#{command2}",
+                                        output: Process::Redirect::Inherit,
+                                        error: Process::Redirect::Inherit,
+                                        shell: true)
+
             printInitializationTitle
             printSystemInformation
             printStartingUnitsTitle
