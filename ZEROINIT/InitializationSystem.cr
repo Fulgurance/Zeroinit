@@ -47,10 +47,10 @@ module ZEROINIT
                 puts error
                 puts "Continue anyway"
 
-            # printInitializationTitle
-            # printSystemInformation
-            # printStartingUnitsTitle
-            # printStartingUnits
+            printInitializationTitle
+            printSystemInformation
+            printStartingUnitsTitle
+            printStartingUnits
         end
 
         def progressivePrint(text : String, speed = 20)
