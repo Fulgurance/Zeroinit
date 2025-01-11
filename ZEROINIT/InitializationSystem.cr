@@ -6,47 +6,98 @@ module ZEROINIT
 
         end
 
+        def mountRunFileSystem
+            process = Process.run(  "mount /run",
+                                    output: Process::Redirect::Inherit,
+                                    error: Process::Redirect::Inherit,
+                                    shell: true)
+
+            if !Dir.exists?("/run/lock")
+                Dir.mkdir("/run/lock")
+            end
+
+            process = Process.run(  "chmod 1777 /run/lock",
+                                    output: Process::Redirect::Inherit,
+                                    error: Process::Redirect::Inherit,
+                                    shell: true)
+        end
+
+        def mountProcFileSystem
+            process = Process.run(  "mount -o nosuid,noexec,nodev /proc",
+                                    output: Process::Redirect::Inherit,
+                                    error: Process::Redirect::Inherit,
+                                    shell: true)
+        end
+
+        def mountSysFileSystem
+            process = Process.run(  "mount -o nosuid,noexec,nodev /sys",
+                                    output: Process::Redirect::Inherit,
+                                    error: Process::Redirect::Inherit,
+                                    shell: true)
+
+            if !Dir.exists?("/sys/fs/cgroup")
+                Dir.mkdir("/sys/fs/cgroup")
+            end
+
+            process = Process.run(  "mount -o nosuid,noexec,nodev /sys/fs/cgroup",
+                                    output: Process::Redirect::Inherit,
+                                    error: Process::Redirect::Inherit,
+                                    shell: true)
+        end
+
+        def mountDevFileSystem
+            process = Process.run(  "mount -o mode=0755,nosuid /dev",
+                                    output: Process::Redirect::Inherit,
+                                    error: Process::Redirect::Inherit,
+                                    shell: true)
+
+            if !Dir.exists?("/dev/shm")
+                Dir.mkdir("/dev/shm")
+            end
+
+            process = Process.run(  "mount -o nosuid,nodev /dev/shm",
+                                    output: Process::Redirect::Inherit,
+                                    error: Process::Redirect::Inherit,
+                                    shell: true)
+        end
+
+        def mountFileSystems
+            mountRunFileSystem
+            mountProcFileSystem
+            mountSysFileSystem
+            mountDevFileSystem
+        end
+
+        def createSymlinks
+            process = Process.run(  "ln -sf /proc/self/fd/0 /dev/stdin",
+                                    output: Process::Redirect::Inherit,
+                                    error: Process::Redirect::Inherit,
+                                    shell: true)
+
+            process = Process.run(  "ln -sf /proc/self/fd/1 /dev/stdout",
+                                    output: Process::Redirect::Inherit,
+                                    error: Process::Redirect::Inherit,
+                                    shell: true)
+
+            process = Process.run(  "ln -sf /proc/self/fd/2 /dev/stderr",
+                                    output: Process::Redirect::Inherit,
+                                    error: Process::Redirect::Inherit,
+                                    shell: true)
+
+            process = Process.run(  "ln -sfn /proc/self/fd /dev/fd",
+                                    output: Process::Redirect::Inherit,
+                                    error: Process::Redirect::Inherit,
+                                    shell: true)
+
+             process = Process.run(  "ln -sf /proc/kcore /dev/core",
+                                    output: Process::Redirect::Inherit,
+                                    error: Process::Redirect::Inherit,
+                                    shell: true)
+        end
+
         def start
- #
-	# # Mount required directories as user may not have them in /etc/fstab
-	# for x in \
-	# 	"mqueue /dev/mqueue 1777 ,nodev mqueue" \
-	# 	"devpts /dev/pts 0755 ,gid=5,mode=0620 devpts" \
-	# 	"tmpfs /dev/shm 1777 ,nodev,mode=1777 shm" \
-	# ; do
-	# 	set -- $x
-	# 	grep -Eq "[[:space:]]+$1$" /proc/filesystems || continue
-	# 	mountinfo -q $2 && continue
- #
-	# 	if [ ! -d $2 ]; then
-	# 		mkdir -m $3 -p $2 >/dev/null 2>&1 || \
-	# 			ewarn "Could not create $2!"
-	# 	fi
- #
-	# 	if [ -d $2 ]; then
-	# 		ebegin "Mounting $2"
-	# 		if ! fstabinfo --mount $2; then
-	# 			mount -n -t $1 -o noexec,nosuid$4 $5 $2
-	# 		fi
-	# 		eend $?
-	# 	fi
-	# done
-            command1 = "mknod -m 620 /dev/tty1 c 4 1 && mknod -m 666 /dev/tty c 5 0 && mknod -m 666 /dev/null c 1 3 && mknod -m 660 /dev/kmsg c 1 11"
-            process = Process.run(  "#{command1}",
-                                        output: Process::Redirect::Inherit,
-                                        error: Process::Redirect::Inherit,
-                                        shell: true)
-            #
-            # command2 = "ln -snf /proc/self/fd /dev/fd && ln -snf /proc/self/fd/0 /dev/stdin && ln -snf /proc/self/fd/1 /dev/stdout && ln -snf /proc/self/fd/2 /dev/stderr && ln -snf /proc/kcore /dev/core"
-            # process = Process.run(  "#{command2}",
-            #                             output: Process::Redirect::Inherit,
-            #                             error: Process::Redirect::Inherit,
-            #                             shell: true)
-
-            rescue error
-                puts error
-                puts "Continue anyway"
-
+            mountFileSystems
+            createSymlinks
             printInitializationTitle
             printSystemInformation
             printStartingUnitsTitle
@@ -55,7 +106,7 @@ module ZEROINIT
 
         def progressivePrint(text : String, speed = 20)
             text.each_char do |character|
-                #sleep(Time::Span.new(nanoseconds: speed*1000000))
+                sleep(Time::Span.new(nanoseconds: speed*1000000))
 
                 print character
             end
