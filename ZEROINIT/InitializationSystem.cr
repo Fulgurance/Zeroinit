@@ -28,7 +28,7 @@ module ZEROINIT
 
         def progressivePrint(text : String, speed = 20)
             text.each_char do |character|
-                sleep(Time::Span.new(nanoseconds: speed*1000000))
+                #sleep(Time::Span.new(nanoseconds: speed*1000000))
 
                 print character
             end
