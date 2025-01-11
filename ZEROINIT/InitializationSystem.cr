@@ -43,7 +43,7 @@ module ZEROINIT
             #                             error: Process::Redirect::Inherit,
             #                             shell: true)
 
-            command1 = "mount -o remount rw /proc/stats"
+            command1 = "mount -t proc proc /proc"
             process = Process.run(  "#{command1}",
                                         output: Process::Redirect::Inherit,
                                         error: Process::Redirect::Inherit,
