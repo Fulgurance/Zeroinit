@@ -19,9 +19,6 @@ module ZEROINIT
 
                 print character
             end
-
-            rescue error
-                pp error
         end
 
         def printInitializationTitle
@@ -35,41 +32,22 @@ module ZEROINIT
             progressivePrint(   text: "#{prefix}#{loadingText} #{initName}#{suffix}\n")
 
             puts
-
-            rescue error
-                pp error
         end
 
         def version : String
             return "0.0.0"
-
-            rescue error
-                pp error
-                return String.new
         end
 
         def kernel : String
             return "Linux"
-
-            rescue error
-                pp error
-                return String.new
         end
 
         def architecture : String
             return "x86_64"
-
-            rescue error
-                pp error
-                return String.new
         end
 
         def operatingSystem : String
             return "Resilience"
-
-            rescue error
-                pp error
-                return String.new
         end
 
         def printSystemInformation
@@ -89,9 +67,6 @@ module ZEROINIT
             progressivePrint(   text: "#{space}#{operatingSystemTitle}: #{operatingSystem}\n")
 
             puts
-
-            rescue error
-                pp error
         end
 
         def printStartingUnitsTitle
@@ -103,9 +78,6 @@ module ZEROINIT
             progressivePrint(   text: "#{prefix}#{text}#{suffix}\n")
 
             puts
-
-            rescue error
-                pp error
         end
 
         def printUnit(name : String, spaceNumber = 1, status = :success)
@@ -123,36 +95,23 @@ module ZEROINIT
             end
 
             puts "#{prefix} #{name}\t\t\t#{statusText}\n"
-
-            rescue error
-                pp error
         end
 
         #TESTS PURPOSE
         def startUnit(unit)
             printUnit(  name: unit)
-
-            rescue error
-                pp error
         end
 
         def printStartingUnits(unitList = loadUnitDatabase)
             unitList.each do |unit|
                 startUnit(unit)
             end
-
-            rescue error
-                pp error
         end
 
         #TESTS PURPOSE
         def loadUnitDatabase : Array(String)
             #Must be implement
             return ["Keymaps","Network","Filesystems","Bluetooth","NetworkManager"]
-
-            rescue error
-                pp error
-                return Array(String).new
         end
 
     end
