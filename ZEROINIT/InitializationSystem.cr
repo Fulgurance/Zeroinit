@@ -7,19 +7,6 @@ module ZEROINIT
         end
 
         def start
-
-            command1 = "mknod -m 600 /dev/console c 5 1 && mknod -m 620 /dev/tty1 c 4 1 && mknod -m 666 /dev/tty c 5 0 && mknod -m 666 /dev/null c 1 3 && mknod -m 660 /dev/kmsg c 1 11"
-            process = Process.run(  "#{command1}",
-                                        output: Process::Redirect::Inherit,
-                                        error: Process::Redirect::Inherit,
-                                        shell: true)
-
-            command2 = "ln -snf /proc/self/fd /dev/fd && ln -snf /proc/self/fd/0 /dev/stdin && ln -snf /proc/self/fd/1 /dev/stdout && ln -snf /proc/self/fd/2 /dev/stderr && ln -snf /proc/kcore /dev/core"
-            process = Process.run(  "#{command2}",
-                                        output: Process::Redirect::Inherit,
-                                        error: Process::Redirect::Inherit,
-                                        shell: true)
-
             printInitializationTitle
             printSystemInformation
             printStartingUnitsTitle
@@ -33,6 +20,8 @@ module ZEROINIT
                 print character
             end
 
+            rescue error
+                pp error
         end
 
         def printInitializationTitle
@@ -46,22 +35,41 @@ module ZEROINIT
             progressivePrint(   text: "#{prefix}#{loadingText} #{initName}#{suffix}\n")
 
             puts
+
+            rescue error
+                pp error
         end
 
         def version : String
             return "0.0.0"
+
+            rescue error
+                pp error
+                return String.new
         end
 
         def kernel : String
             return "Linux"
+
+            rescue error
+                pp error
+                return String.new
         end
 
         def architecture : String
             return "x86_64"
+
+            rescue error
+                pp error
+                return String.new
         end
 
         def operatingSystem : String
             return "Resilience"
+
+            rescue error
+                pp error
+                return String.new
         end
 
         def printSystemInformation
@@ -81,6 +89,9 @@ module ZEROINIT
             progressivePrint(   text: "#{space}#{operatingSystemTitle}: #{operatingSystem}\n")
 
             puts
+
+            rescue error
+                pp error
         end
 
         def printStartingUnitsTitle
@@ -92,6 +103,9 @@ module ZEROINIT
             progressivePrint(   text: "#{prefix}#{text}#{suffix}\n")
 
             puts
+
+            rescue error
+                pp error
         end
 
         def printUnit(name : String, spaceNumber = 1, status = :success)
@@ -109,23 +123,36 @@ module ZEROINIT
             end
 
             puts "#{prefix} #{name}\t\t\t#{statusText}\n"
+
+            rescue error
+                pp error
         end
 
         #TESTS PURPOSE
         def startUnit(unit)
             printUnit(  name: unit)
+
+            rescue error
+                pp error
         end
 
         def printStartingUnits(unitList = loadUnitDatabase)
             unitList.each do |unit|
                 startUnit(unit)
             end
+
+            rescue error
+                pp error
         end
 
         #TESTS PURPOSE
         def loadUnitDatabase : Array(String)
             #Must be implement
             return ["Keymaps","Network","Filesystems","Bluetooth","NetworkManager"]
+
+            rescue error
+                pp error
+                return Array(String).new
         end
 
     end
