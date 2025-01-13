@@ -7,11 +7,6 @@ module ZEROINIT
         end
 
         def start
-            process = Process.run(  "mount -n -o remount,rw / && mount --make-rshared /",
-                                    output: Process::Redirect::Inherit,
-                                    error: Process::Redirect::Inherit,
-                                    shell: true)
-
             printInitializationTitle
             printSystemInformation
             printStartingUnitsTitle
