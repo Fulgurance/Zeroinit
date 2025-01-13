@@ -4,7 +4,7 @@
 
 Next generation initialization system for Linux kernel
 
-![Zeroinit-Example.png](https://www.zupimages.net/up/25/02/5d8q.png)
+![Zeroinit-Example.png](https://i.ibb.co/k8tWnWv/Untitled-design.gif)
 
 ## About
 The project is actually at it very beginning and for the moment highly experimental. Should not be use in production.
