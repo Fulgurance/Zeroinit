@@ -42,7 +42,7 @@ module ZEROINIT
         end
 
         def architecture : String
-            processResult = runSystemCommand("arch")
+            processResult = runSystemCommand("uname -m")
             return processResult.output
         end
 
