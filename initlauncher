@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Mount root file system
+mount -o remount,rw /
+
+# Mount minimal needed kernel virtual file systems
+mount -o nosuid,noexec,nodev /proc
+
+# Load /etc/profile to access to the shared libraries
+source /etc/profile
+
+# Give hand (PID 1) to the init
+exec zeroinit

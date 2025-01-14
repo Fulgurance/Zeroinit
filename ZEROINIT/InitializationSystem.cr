@@ -13,6 +13,44 @@ module ZEROINIT
             printStartingUnits
         end
 
+        def exitInit
+            exit 1
+        end
+
+        def runSystemCommand(command : String) : ZEROINIT::ProcessResult
+            commandOutput = IO::Memory.new
+
+            process = Process.run(  command: command,
+                                    output: commandOutput,
+                                    shell: true)
+
+            output = commandOutput.to_s.strip
+
+            commandOutput.clear
+
+            return ZEROINIT::ProcessResult.new(output, process)
+        end
+
+        #HAVE TO BE IMPLEMENT
+        def version : String
+            return "0.0.0"
+        end
+
+        def kernel : String
+            processResult = runSystemCommand("uname -s")
+            return processResult.output
+        end
+
+        def architecture : String
+            processResult = runSystemCommand("arch")
+            return processResult.output
+        end
+
+        def operatingSystem : String
+            processResult = runSystemCommand("uname -o")
+            return processResult.output
+        end
+
         def progressivePrint(text : String, speed = 20)
             text.each_char do |character|
                 #sleep(Time::Span.new(nanoseconds: speed*1000000))
@@ -32,22 +70,6 @@ module ZEROINIT
             progressivePrint(   text: "#{prefix}#{loadingText} #{initName}#{suffix}\n")
 
             puts
-        end
-
-        def version : String
-            return "0.0.0"
-        end
-
-        def kernel : String
-            return "Linux"
-        end
-
-        def architecture : String
-            return "x86_64"
-        end
-
-        def operatingSystem : String
-            return "Resilience"
         end
 
         def printSystemInformation
@@ -97,7 +119,6 @@ module ZEROINIT
             puts "#{prefix} #{name}\t\t\t#{statusText}\n"
         end
 
-        #TESTS PURPOSE
         def startUnit(unit)
             printUnit(  name: unit)
         end
@@ -108,9 +129,7 @@ module ZEROINIT
             end
         end
 
-        #TESTS PURPOSE
         def loadUnitDatabase : Array(String)
-            #Must be implement
             return ["Keymaps","Network","Filesystems","Bluetooth","NetworkManager"]
         end
 
