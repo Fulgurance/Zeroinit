@@ -3,11 +3,23 @@
 # Mount root file system
 mount -o remount,rw /
 
-# Mount minimal needed kernel virtual file systems
-mount -o nosuid,noexec,nodev /proc
+# Make required directories and mount default filesystems
+mkdir -p /dev/pts
+mkdir -p /dev/shm
+mount --fstab /etc/fstab.d/default  --all
+mount --fstab /etc/fstab.d/system   --all
+mkdir -p /run/lock
+chmod 1777 /run/lock
+
+# Make required symlinks
+ln -sf  /proc/self/fd/0     /dev/stdin
+ln -sf  /proc/self/fd/1     /dev/stdout
+ln -sf  /proc/self/fd/2     /dev/stderr
+ln -sfn /proc/self/fd       /dev/fd
+ln -sf  /proc/kcore         /dev/core
 
 # Load /etc/profile to access to the shared libraries
 source /etc/profile
 
-# Give hand (PID 1) to the init
+# Give hand to the init with PID 1
 exec zeroinit
