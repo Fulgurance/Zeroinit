@@ -17,6 +17,20 @@ module ZEROINIT
             exit 1
         end
 
+        def runSystemCommand(command : String) : ZEROINIT::ProcessResult
+            commandOutput = IO::Memory.new
+
+            process = Process.run(  command: command,
+                                    output: commandOutput,
+                                    shell: true)
+
+            output = commandOutput.to_s.strip
+
+            commandOutput.clear
+
+            return ZEROINIT::ProcessResult.new(output, process)
+        end
+
         #HAVE TO BE IMPLEMENT
         def version : String
             return "0.0.0"
