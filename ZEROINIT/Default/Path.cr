@@ -4,7 +4,7 @@ module ZEROINIT
 
         module Path
             
-            ZeroinitDirectory = "ism/"
+            ZeroinitDirectory = "zeroinit/"
             BinaryDirectory = "sbin/"
             UnitDirectory = "units/"
             RuntimeDataDirectory = "var/#{ZeroinitDirectory}"

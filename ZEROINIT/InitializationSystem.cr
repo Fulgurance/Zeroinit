@@ -13,10 +13,6 @@ module ZEROINIT
             printStartingUnits
         end
 
-        def exitInit
-            exit 1
-        end
-
         def runSystemCommand(command : String) : ZEROINIT::ProcessResult
             commandOutput = IO::Memory.new
 

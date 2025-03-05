@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# switch_root [options] <newrootdir> <init> <args to init>
+
 # Mount root file system
 mount -o remount,rw /
 
