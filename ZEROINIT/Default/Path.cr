@@ -12,7 +12,7 @@ module ZEROINIT
             SettingDirectory = "etc/#{ZeroinitDirectory}"
             LogDirectory = "var/log/#{ZeroinitDirectory}"
             LibraryDirectory = "usr/share/#{ZeroinitDirectory}"
-            UnitDirectory = "#{RuntimeDataDirectory}#{UnitDirectory}"
+            UnitDirectory = "#{RuntimeDataDirectory}"
             UnitSettingDirectory = "#{SettingDirectory}#{UnitDirectory}"
 
         end
