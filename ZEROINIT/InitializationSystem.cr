@@ -16,9 +16,12 @@ module ZEROINIT
         def runSystemCommand(command : String) : ZEROINIT::ProcessResult
             commandOutput = IO::Memory.new
 
-            process = Process.run(  command: command,
+            array = command.split(" ")
+
+            process = Process.run(  command: array[0],
+                                    args: array[1..-1]
                                     output: commandOutput,
-                                    shell: true)
+                                    shell: false)
 
             output = commandOutput.to_s.strip
 
@@ -33,17 +36,17 @@ module ZEROINIT
         end
 
         def kernel : String
-            processResult = runSystemCommand("uname -s")
+            processResult = runSystemCommand("/usr/bin/uname -s")
             return processResult.output
         end
 
         def architecture : String
-            processResult = runSystemCommand("uname -m")
+            processResult = runSystemCommand("/usr/bin/uname -m")
             return processResult.output
         end
 
         def operatingSystem : String
-            processResult = runSystemCommand("uname -o")
+            processResult = runSystemCommand("/usr/bin/uname -o")
             return processResult.output
         end
 
