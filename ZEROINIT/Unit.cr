@@ -7,7 +7,7 @@ module ZEROINIT
         property name : String
         property description : String
 
-        def initialize
+        def initialize(@name,@description)
 
         end
 
