@@ -19,7 +19,7 @@ module ZEROINIT
             array = command.split(" ")
 
             process = Process.run(  command: array[0],
-                                    args: array[1..-1]
+                                    args: array[1..-1],
                                     output: commandOutput,
                                     shell: false)
 
