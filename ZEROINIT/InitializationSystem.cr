@@ -3,7 +3,18 @@ module ZEROINIT
     class InitializationSystem
 
         def initialize
-
+            mountRoot
+            generateDevPts
+            generateDevShm
+            mountDefaultFileSystem
+            mountSystemFileSystem
+            generateRunLock
+            setRunLockRights
+            generateStdinSymlink
+            generateStdoutSymlink
+            generateStderrSymlink
+            generateFdSymlink
+            generateCoreSymlink
         end
 
         def start
@@ -11,6 +22,54 @@ module ZEROINIT
             printSystemInformation
             printStartingUnitsTitle
             printStartingUnits
+        end
+
+        def mountRoot
+            runSystemCommand("/usr/bin/mount -o remount,rw /")
+        end
+
+        def generateDevPts
+            runSystemCommand("/usr/bin/mkdir -p /dev/pts")
+        end
+
+        def generateDevShm
+            runSystemCommand("/usr/bin/mkdir -p /dev/shm")
+        end
+
+        def mountDefaultFileSystem
+            runSystemCommand("/usr/bin/mount --fstab /etc/fstab.d/default--all")
+        end
+
+        def mountSystemFileSystem
+            runSystemCommand("/usr/bin/mount --fstab /etc/fstab.d/system --all")
+        end
+
+        def generateRunLock
+            runSystemCommand("/usr/bin/mkdir -p /run/lock")
+        end
+
+        def setRunLockRights
+            runSystemCommand("/usr/bin/chmod 1777 /run/lock")
+        end
+
+        def generateStdinSymlink
+            runSystemCommand("/usr/bin/ln -sf /proc/self/fd/0 /dev/stdin")
+        end
+
+        def generateStdoutSymlink
+            runSystemCommand("/usr/bin/ln -sf /proc/self/fd/1 /dev/stdout")
+        end
+
+        def generateStderrSymlink
+            runSystemCommand("/usr/bin/ln -sf /proc/self/fd/2 /dev/stderr")
+        end
+
+        def generateFdSymlink
+            runSystemCommand("/usr/bin/ln -sfn /proc/self/fd /dev/fd")
+        end
+
+        def generateCoreSymlink
+            runSystemCommand("/usr/bin/ln -sf /proc/kcore /dev/core")
         end
 
         def runSystemCommand(command : String) : ZEROINIT::ProcessResult
@@ -52,7 +111,7 @@ module ZEROINIT
 
         def progressivePrint(text : String, speed = 20)
             text.each_char do |character|
-                #sleep(Time::Span.new(nanoseconds: speed*1000000))
+                sleep(Time::Span.new(nanoseconds: speed*1000000))
 
                 print character
             end
