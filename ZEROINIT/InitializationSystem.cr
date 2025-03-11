@@ -37,7 +37,7 @@ module ZEROINIT
         end
 
         def mountDefaultFileSystem
-            runSystemCommand("/usr/bin/mount --fstab /etc/fstab.d/default--all")
+            runSystemCommand("/usr/bin/mount --fstab /etc/fstab.d/default --all")
         end
 
         def mountSystemFileSystem
