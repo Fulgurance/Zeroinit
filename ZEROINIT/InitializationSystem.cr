@@ -2,6 +2,22 @@ module ZEROINIT
 
     class InitializationSystem
 
+        module Default
+
+            Name = "Zeroinit"
+            InitializationText = "Initializing"
+            VersionTitle = "VERSION"
+            KernelTitle = "KERNEL"
+            ArchitectureTitle = "ARCHITECTURE"
+            OperatingSystemTitle = "OPERATING SYSTEM"
+            StartingUnitsTitle = "Starting units"
+            ProcessNotificationCharacters = "■"
+            UnitSuccessText = "(ok)"
+            UnitLoadingText = "(loading)"
+            UnitFailureText = "(failure)"
+
+        end
+
         def initialize
             mountRoot
             generateDevPts
@@ -91,7 +107,7 @@ module ZEROINIT
 
         #HAVE TO BE IMPLEMENT
         def version : String
-            return "0.0.0"
+            return "Master"
         end
 
         def kernel : String
@@ -109,7 +125,7 @@ module ZEROINIT
             return processResult.output
         end
 
-        def progressivePrint(text : String, speed = 20)
+        def progressivePrint(text : String, speed = 10)
             text.each_char do |character|
                 sleep(Time::Span.new(nanoseconds: speed*1000000))
 
@@ -178,7 +194,7 @@ module ZEROINIT
         end
 
         def startUnit(unit)
-            printUnit(  name: unit)
+            printUnit(unit)
         end
 
         def printStartingUnits(unitList = loadUnitDatabase)
