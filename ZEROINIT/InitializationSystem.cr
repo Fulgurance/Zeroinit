@@ -137,8 +137,8 @@ module ZEROINIT
             puts
 
             prefix = "[ ".colorize(:green)
-            initName = ZEROINIT::Default::InitializationSystem::Name.colorize(Colorize::ColorRGB.new(255,100,100)).mode(:bold)
-            loadingText = ZEROINIT::Default::InitializationSystem::InitializationText
+            initName = Default::Name.colorize(Colorize::ColorRGB.new(255,100,100)).mode(:bold)
+            loadingText = Default::InitializationText
             suffix = " ]".colorize(:green)
 
             progressivePrint(   text: "#{prefix}#{loadingText} #{initName}#{suffix}\n")
@@ -149,10 +149,10 @@ module ZEROINIT
         def printSystemInformation
 
             space = "     "
-            versionTitle = ZEROINIT::Default::InitializationSystem::VersionTitle.colorize(:green)
-            kernelTitle = ZEROINIT::Default::InitializationSystem::KernelTitle.colorize(:green)
-            architectureTitle = ZEROINIT::Default::InitializationSystem::ArchitectureTitle.colorize(:green)
-            operatingSystemTitle = ZEROINIT::Default::InitializationSystem::OperatingSystemTitle.colorize(:green)
+            versionTitle = Default::VersionTitle.colorize(:green)
+            kernelTitle = Default::KernelTitle.colorize(:green)
+            architectureTitle = Default::ArchitectureTitle.colorize(:green)
+            operatingSystemTitle = Default::OperatingSystemTitle.colorize(:green)
 
             progressivePrint(   text: "#{space}#{versionTitle}: #{version}\n")
 
@@ -168,7 +168,7 @@ module ZEROINIT
         def printStartingUnitsTitle
 
             prefix = "\t{ "
-            text = ZEROINIT::Default::InitializationSystem::StartingUnitsTitle.colorize(:green)
+            text = Default::StartingUnitsTitle.colorize(:green)
             suffix = " }"
 
             progressivePrint(   text: "#{prefix}#{text}#{suffix}\n")
@@ -178,16 +178,16 @@ module ZEROINIT
 
         def printUnit(name : String, spaceNumber = 1, status = :success)
 
-            prefix = "\t\t#{ZEROINIT::Default::InitializationSystem::ProcessNotificationCharacters}".colorize(:green)
+            prefix = "\t\t#{Default::ProcessNotificationCharacters}".colorize(:green)
             statusText = String.new
 
             case status
             when :success
-                statusText = ZEROINIT::Default::InitializationSystem::UnitSuccessText.colorize(:green)
+                statusText = Default::UnitSuccessText.colorize(:green)
             when :loading
-                statusText = ZEROINIT::Default::InitializationSystem::UnitLoadingText.colorize(:yellow)
+                statusText = Default::UnitLoadingText.colorize(:yellow)
             when :failure
-                statusText = ZEROINIT::Default::InitializationSystem::UnitFailureText.colorize(:red)
+                statusText = Default::UnitFailureText.colorize(:red)
             end
 
             puts "#{prefix} #{name}\t\t\t#{statusText}\n"
