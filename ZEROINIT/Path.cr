@@ -7,9 +7,9 @@ module ZEROINIT
         UnitDirectory = "units/"
         RuntimeDataDirectory = "var/#{ZeroinitDirectory}"
         TemporaryDirectory = "tmp/#{ZeroinitDirectory}"
-        SettingDirectory = "etc/#{ZeroinitDirectory}"
-        LogDirectory = "var/log/#{ZeroinitDirectory}"
-        LibraryDirectory = "usr/share/#{ZeroinitDirectory}"
+        LogsDirectory = "var/log/#{ZeroinitDirectory}"
+        LibraryDirectory = "usr/lib/#{ZeroinitDirectory}"
+        SettingDirectory = "#{RuntimeDataDirectory}settings/"
         UnitSettingDirectory = "#{SettingDirectory}#{UnitDirectory}"
 
     end
